@@ -1,0 +1,40 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <header class="jumbotron">
+        <div class="container">
+            <h1>Welcome to YelpCamp!</h1>
+            <p>View our campgrounds from all over the world</p>
+            <p>
+                <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add New Campground</a>
+            </p>
+        </div>
+    </header>
+    
+    <div class="row text-center" style="display:flex; flex-wrap:wrap;">
+        <% campgrounds.forEach(function(campground) { %>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                    <img src="<%= campground.image %>" width=500px>
+                    <div class="caption">
+                        <h4> <%= campground.name %> </h4>
+                    </div>
+                    <p>
+                        <!--
+                        We create a distinct URL for each button with help of the unique object id :
+                        " _id field cast to a string "
+                        When we press on the button (the link), it opens that link very briefly,
+                        long enough to take the _id as a parameter to search for in DB 
+                        with the .findById method, and the retrieved single campground is routed
+                        to the "show" template.
+                        -->
+                        <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">More Info</a>
+                    </p>
+                </div>
+            </div>
+        <% });  %>
+    </div>
+</div>
+
+
+<% include ../partials/footer %>
