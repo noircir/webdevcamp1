@@ -1,3 +1,5 @@
+// New package in this v.10 : npm install method-override --save
+
 // New packages in v.6 :
 //  npm install passport passport-local passport-local-mongoose express-session --save
 
@@ -11,7 +13,8 @@ var express                 = require("express"),
     passport                = require("passport"),
     User                    = require("./models/user"),
     localStrategy           = require("passport-local"),
-    passportLocalMongoose   = require("passport-local-mongoose");
+    passportLocalMongoose   = require("passport-local-mongoose"),
+    methodOverride          = require("method-override");
 
 // requiring routes from three files (which they are exporting)
 // Just declarations here!! Using them further down.
@@ -20,11 +23,12 @@ var campgroundRoutes        = require("./routes/campgrounds"),
     indexRoutes             = require("./routes/index");
     
 
-mongoose.connect('mongodb://localhost/yelp_camp_v8', { useMongoClient: true });
+mongoose.connect('mongodb://localhost/yelp_camp_v9', { useMongoClient: true });
 mongoose.Promise = global.Promise;
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride("_method"));
 
 // seedDB();
 
@@ -48,7 +52,7 @@ passport.deserializeUser(User.deserializeUser());
 // PASS-THROUGH USER SETUP
 //=========================
 
-app.use(function(req,res,next){
+app.use(function(req, res, next){
     res.locals.currentUser = req.user;
     next();
 })
